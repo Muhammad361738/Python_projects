@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 
+# Initialize an empty Todo list
 todo_list = []
-condition = True
 
-# Print messages without using 'termcolor'
+# Display welcome message
 print("\t <<<=============================================>>>")
 print("\n \t Welcome to Muhammad Talha - Todo-List Application \n")
 print("\t <<<=============================================>>>")
 
 def main():
-    global condition
+    condition = True
     while condition:
         # Display menu options
         print("\nSelect an option you want to do:")
@@ -19,7 +19,7 @@ def main():
         print("4. View Todo-List")
         print("5. Exit")
 
-        choice = input("Enter the number of your choice: ")
+        choice = input("Enter the number of your choice: ").strip()
 
         if choice == "1":
             add_task()
@@ -31,14 +31,18 @@ def main():
             view_task()
         elif choice == "5":
             condition = False
+            print("\nThank you for using the Todo-List application. Goodbye!")
         else:
             print("\nInvalid choice. Please try again.")
 
-# Function to add task to Todo List
+# Function to add a task to the Todo List
 def add_task():
-    new_task = input("\nEnter your new Task: ")
-    todo_list.append(new_task)
-    print(f"\n{new_task} Task is added successfully in Todo-List")
+    new_task = input("\nEnter your new Task: ").strip()
+    if new_task:
+        todo_list.append(new_task)
+        print(f"\n'{new_task}' has been added successfully to the Todo-List.")
+    else:
+        print("\nTask cannot be empty. Please try again.")
 
 # Function to view all Todo List tasks
 def view_task():
@@ -46,43 +50,36 @@ def view_task():
         print("\nYour Todo List is empty.")
     else:
         print("\nYour Todo List:")
-        for idx, task in enumerate(todo_list, 1):
-            print(f"{idx}. {task}")
+        index = 1
+        for task in todo_list:
+            print(f"{index}. {task}")
+            index += 1
 
 # Function to delete a task from the list
 def delete_task():
     view_task()
     if todo_list:
-        task_index = input("\nEnter the index number of the Task you want to delete from the list: ")
-        
-        # Check if input is a valid integer and within range
-        if task_index.isdigit():
-            task_index = int(task_index)
-            if 1 <= task_index <= len(todo_list):
-                deleted_task = todo_list.pop(task_index - 1)
-                print(f"\n{deleted_task} Task is deleted successfully from your Todo-List")
-            else:
-                print("\nInvalid index. Please enter a valid task index.")
+        task_index = input("\nEnter the index number of the task you want to delete: ").strip()
+        if task_index.isdigit() and 1 <= int(task_index) <= len(todo_list):
+            deleted_task = todo_list.pop(int(task_index) - 1)
+            print(f"\n'{deleted_task}' has been deleted successfully from your Todo-List.")
         else:
-            print("\nInvalid input. Please enter a number.")
+            print("\nInvalid index. Please enter a valid number.")
 
 # Function to update a task in the Todo List
 def update_task():
     view_task()
     if todo_list:
-        task_index = input("\nEnter the index number of the Task you want to update: ")
-        
-        # Check if input is a valid integer and within range
-        if task_index.isdigit():
-            task_index = int(task_index)
-            if 1 <= task_index <= len(todo_list):
-                new_task_name = input("Now Enter new Task name: ")
-                todo_list[task_index - 1] = new_task_name
-                print(f"\nTask at index no {task_index} updated successfully [For updated list, check 'View Todo-List']")
+        task_index = input("\nEnter the index number of the task you want to update: ").strip()
+        if task_index.isdigit() and 1 <= int(task_index) <= len(todo_list):
+            new_task_name = input("Enter the new task name: ").strip()
+            if new_task_name:
+                todo_list[int(task_index) - 1] = new_task_name
+                print(f"\nTask at index {task_index} has been updated successfully.")
             else:
-                print("\nInvalid index. Please enter a valid task index.")
+                print("\nTask name cannot be empty. Please try again.")
         else:
-            print("\nInvalid input. Please enter a number.")
+            print("\nInvalid index. Please enter a valid number.")
 
-if __name__ == "__main__":
-    main()
+# Run the program
+main()
